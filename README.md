@@ -1,7 +1,5 @@
 # devops-netology
 Important change!
-Important change for branch FIX
-Editing in Pycharm
 Описание шаблонов игнорирования для terraform:
 1. Содержимое директорий .terraform (скрытых) - в любом месте репозитория
 2. Файлы с расширением .tfstate (включая случаю, когда это расширение не последнее) и скрытые файлы .tfstate - в любом месте репозитория
