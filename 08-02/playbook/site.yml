@@ -1,0 +1,56 @@
+---
+- name: Install Clickhouse
+  hosts: clickhouse
+  tasks:
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "/tmp/{{ item }}-{{ clickhouse_version }}.rpm"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "/tmp/clickhouse-common-static-{{ clickhouse_version }}.rpm"
+    - name: Install clickhouse packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - /tmp/clickhouse-common-static-{{ clickhouse_version }}.rpm
+          - /tmp/clickhouse-client-{{ clickhouse_version }}.rpm
+          - /tmp/clickhouse-server-{{ clickhouse_version }}.rpm
+      notify:
+      - Start clickhouse service
+      ignore_errors: "{{ ansible_check_mode }}"
+    - name: "Flush handlers"
+      meta: flush_handlers
+    - name: Pause 5 sec
+      ansible.builtin.pause:
+        seconds: 5
+    - name: Create database
+      command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0
+      tags: clickhouse
+
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+- name: Install vector
+  hosts: clickhouse
+  tasks:
+    - name: Get vector distrib
+      ansible.builtin.get_url:
+        url: "https://packages.timber.io/vector/{{ vector_major_version }}/vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm"
+        dest: ./vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm
+    - name: Install vector packages
+      ansible.builtin.yum:
+        name:
+          - vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm
+      ignore_errors: "{{ ansible_check_mode }}"
+      tags: vector
