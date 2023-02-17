@@ -1,0 +1,9 @@
+---
+clickhouse_version: "22.6.3.35"
+clickhouse_packages:
+  - clickhouse-client
+  - clickhouse-server
+  - clickhouse-common-static
+vector_major_version: "0.27.0"
+vector_minor_version: "0.27.0-1"
+vector_arch: "x86_64"

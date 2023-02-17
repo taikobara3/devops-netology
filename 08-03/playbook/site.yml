@@ -1,0 +1,116 @@
+---
+- name: Install Clickhouse
+  hosts: clickhouse-01
+  tasks:
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "/tmp/{{ item }}-{{ clickhouse_version }}.rpm"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "/tmp/clickhouse-common-static-{{ clickhouse_version }}.rpm"
+    - name: Install clickhouse packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - /tmp/clickhouse-common-static-{{ clickhouse_version }}.rpm
+          - /tmp/clickhouse-client-{{ clickhouse_version }}.rpm
+          - /tmp/clickhouse-server-{{ clickhouse_version }}.rpm
+      notify:
+      - Start clickhouse service
+      ignore_errors: "{{ ansible_check_mode }}"
+    - name: "Flush handlers"
+      meta: flush_handlers
+    - name: Pause 5 sec
+      ansible.builtin.pause:
+        seconds: 5
+    - name: Create database
+      command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0
+      tags: clickhouse
+
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+- name: Install vector
+  hosts: vector
+  tasks:
+    - name: Get vector distrib
+      ansible.builtin.get_url:
+        url: "https://packages.timber.io/vector/{{ vector_major_version }}/vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm"
+        dest: ./vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm
+    - name: Install vector packages
+      ansible.builtin.yum:
+        name:
+          - vector-{{ vector_minor_version }}.{{ vector_arch }}.rpm
+      ignore_errors: "{{ ansible_check_mode }}"
+      tags: vector
+      become: true
+- name: Install Lighthouse
+  hosts: lighthouse
+  tasks:
+    - name: Get lighthouse distrib
+      ansible.builtin.get_url:
+        url: "https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip"
+        dest: /tmp/lighthouse.zip
+        validate_certs: no
+    - name: Add unzip
+      yum:
+        name: unzip
+        state: present
+      ignore_errors: "{{ ansible_check_mode }}"
+      become: true
+#    - name: create dir
+#     ansible.builtin.file:
+#        path: "/var/www"
+#        state: directory
+#        mode: '0755'
+    - name: Add epel-release
+      yum:
+        name: epel-release
+        state: present
+      ignore_errors: "{{ ansible_check_mode }}"
+      become: true
+    - name: Install nginx
+      yum:
+        name: nginx
+        state: present
+      ignore_errors: "{{ ansible_check_mode }}"
+      become: true
+    - name: Unpack lighthouse
+      ansible.builtin.unarchive:
+        src: "/tmp/lighthouse.zip"
+        dest: "/usr/share/nginx/html"
+        remote_src: yes
+      tags: lighthouse
+      ignore_errors: "{{ ansible_check_mode }}"
+      become: true
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /var/www
+        state: directory
+        recurse: yes
+        owner: nginx
+        group: nginx
+        mode: '0644'
+      become: true
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+      become: true
+    - name: Stop Firewalld
+      service:
+        name: firewalld
+        state: stopped
+      become: true
+      failed_when: false
