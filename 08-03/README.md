@@ -4,7 +4,7 @@
 
 1. Подготовьте в Yandex Cloud три хоста: для `clickhouse`, для `vector` и для `lighthouse`.
 
-![](\01.png)
+![](.\01.png)
 
 Ссылка на репозиторий LightHouse: https://github.com/VKCOM/lighthouse
 
@@ -589,7 +589,7 @@ clickhouse-01              : ok=6    changed=4    unreachable=0    failed=0    s
 lighthouse                 : ok=9    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 vector                     : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
-![](\02.png)
+![](.\02.png)
 8. Повторно запустите playbook с флагом `--diff` и убедитесь, что playbook идемпотентен.
 ```commandline
 $ ansible-playbook -i inventory/prod.yml site.yml --diff
