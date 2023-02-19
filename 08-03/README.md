@@ -664,6 +664,9 @@ lighthouse                 : ok=9    changed=0    unreachable=0    failed=0    s
 vector                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 9. Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
+
+[https://github.com/taikobara3/devops-netology/blob/main/08-03/playbook/README.md](https://github.com/taikobara3/devops-netology/blob/main/08-03/playbook/README.md)
+
 10. Готовый playbook выложите в свой репозиторий, поставьте тег `08-ansible-03-yandex` на фиксирующий коммит, в ответ предоставьте ссылку на него.
 
 ---
