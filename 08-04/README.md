@@ -48,6 +48,12 @@ git push origin master --tags
 10. Выложите playbook в репозиторий.
 11. В ответ приведите ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook.
 
+https://github.com/taikobara3/devops-netology/tree/main/08-04/playbook
+
+https://github.com/taikobara3/lighthouse-role
+
+https://github.com/taikobara3/vector-role
+
 ---
 
 ### Как оформить ДЗ?
