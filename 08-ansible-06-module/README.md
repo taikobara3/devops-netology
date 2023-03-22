@@ -276,7 +276,9 @@ localhost                  : ok=2    changed=1    unreachable=0    failed=0    s
 17. В ответ необходимо прислать ссылки на collection и tar.gz архив, а также скриншоты выполнения пунктов 4, 6, 15 и 16.
 
 https://github.com/taikobara3/my_own_collection
+
 https://github.com/taikobara3/devops-netology/blob/main/08-ansible-06-module/my_own_namespace-yandex_cloud_elk-1.0.0.tar.gz
+
 https://github.com/taikobara3/devops-netology/blob/main/08-ansible-06-module/test_playbook.yml
 
 ## Необязательная часть
