@@ -1,0 +1,8 @@
+---
+- name: module test
+  hosts: localhost
+  tasks:
+    - name: Test
+      my_own_namespace.yandex_cloud_elk.my_own_module:
+        path: './testfile.txt'
+        content: 'Test module fron playbook'
