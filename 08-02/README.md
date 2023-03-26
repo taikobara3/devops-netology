@@ -219,8 +219,6 @@ clickhouse-01              : ok=8    changed=0    unreachable=0    failed=0    s
 ```
 9. Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
 
-[https://github.com/taikobara3/devops-netology/blob/main/08-03/playbook/README.md](https://github.com/taikobara3/devops-netology/blob/main/08-03/playbook/README.md)
-
 10. Готовый playbook выложите в свой репозиторий, поставьте тег `08-ansible-02-playbook` на фиксирующий коммит, в ответ предоставьте ссылку на него.
 
 ---
