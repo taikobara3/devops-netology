@@ -32,6 +32,7 @@
 Если всё отработало в рамках ожидания - выгрузить схемы workflow для импорта в XML. Файлы с workflow приложить к решению задания.
 
 [workflow for bug](https://github.com/taikobara3/devops-netology/blob/main/09-ci-01-intro/Bug_wf_test.xml)
+
 [workflow for other](https://github.com/taikobara3/devops-netology/blob/main/09-ci-01-intro/Default_wf_test.xml)
 
 ---
