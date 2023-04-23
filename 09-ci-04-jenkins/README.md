@@ -845,6 +845,14 @@ node("agent"){
 
 7. Проверить работоспособность, исправить ошибки, исправленный Pipeline вложить в репозиторий в файл `ScriptedJenkinsfile`.
 8. Отправить ссылку на репозиторий с ролью и Declarative Pipeline и Scripted Pipeline.
+ a) Declarative Pipeline:
+
+https://github.com/taikobara3/vector-role/blob/master/Jenkinsfile
+
+ b) Scripted Pipeline:
+
+https://github.com/taikobara3/devops-netology/blob/main/09-ci-04-jenkins/pipeline/ScriptedJenkinsfile
+
 
 ## Необязательная часть
 
