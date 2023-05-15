@@ -7,6 +7,26 @@
 3. Создайте новый репозиторий в gitlab, наполните его [файлами](./repository)
 4. Проект должен быть публичным, остальные настройки по желанию
 
+```commandline
+oleg@oleg-VirtualBox:~/.ssh$ helm repo add gitlab https://charts.gitlab.cn
+"gitlab" has been added to your repositories
+oleg@oleg-VirtualBox:~/.ssh$ helm install --namespace default gitlab-runner -f values.yaml gitlab/gitlab-runner
+NAME: gitlab-runner
+LAST DEPLOYED: Mon May 15 14:32:06 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Your GitLab Runner should now be registered against the GitLab instance reachable at: "https://taikobara.gitlab.yandexcloud.net/"
+
+Runner namespace "default" was found in runners.config template.
+
+oleg@oleg-VirtualBox:~/.ssh$ kubectl get pods -n default | grep gitlab-runner
+gitlab-runner-854dff6bd7-mbqkp   0/1     ContainerCreating   0          32s
+```
+
+
 ## Основная часть
 
 ### DevOps
@@ -137,22 +157,5 @@ CMD ["python3.7", "/python_api/python-api.py"]
 
 ## Необязательная часть
 
-Автомазируйте работу тестировщика, пусть у вас будет отдельный конвейер, который автоматически поднимает контейнер и выполняет проверку, например, при помощи curl. На основе вывода - будет приниматься решение об успешности прохождения тестирования
 
-
-###############
-
-oleg@oleg-VirtualBox:~/.ssh$ helm install --namespace default gitlab-runner -f values.yaml gitlab/gitlab-runner
-NAME: gitlab-runner
-LAST DEPLOYED: Mon May 15 14:32:06 2023
-NAMESPACE: default
-STATUS: deployed
-REVISION: 1
-TEST SUITE: None
-NOTES:
-Your GitLab Runner should now be registered against the GitLab instance reachable at: "https://taikobara.gitlab.yandexcloud.net/"
-
-Runner namespace "default" was found in runners.config template.
-oleg@oleg-VirtualBox:~/.ssh$ kubectl get pods -n default | grep gitlab-runner
-gitlab-runner-854dff6bd7-mbqkp   0/1     ContainerCreating   0          32s
 
