@@ -66,7 +66,12 @@ Index patterns has been renamed to data views in Kibana 8.6
 и источниками из раздела "Дополнительные ссылки" данного ДЗ.
 
 ![monitoring04](10-04-04.png)
- 
+
+Пример свежих логов с двумя типами ошибок : "ERROR:root:this is exception" и "ERROR:root:OH NO !!!!!" 
+
+![monitoring04](10-04-05.png)
+
+![monitoring04](10-04-06.png)
 ---
 
 ### Как оформить ДЗ?
