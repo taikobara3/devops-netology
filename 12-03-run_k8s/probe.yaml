@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: 12-03
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+          - containerPort: 80
+            name: http-nginx
+      initContainers:
+       - name: busybox
+         image: busybox
+         command: ['sh', '-c', 'ter=1; while [ "$ter" -eq "1" ]; do nc -zvw3 127.0.0.1 80; ter=$?; echo $ter; sleep 2; done; echo "Succecess!"; exit 0;']
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netology-svc
+  namespace: 12-03
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: nginx-http
+    protocol: TCP
+    port: 80
+    targetPort: http-nginx
