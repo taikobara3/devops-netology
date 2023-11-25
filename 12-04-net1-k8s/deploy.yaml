@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: 12-04
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+          - containerPort: 80
+            name: http-nginx
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+          - containerPort: 8080
+            name: http-multitool
+        env:
+          - name: HTTP_PORT
+            value: '8080'
+          - name: HTTPS_PORT 
+            value: '11443'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netology-svc
+  namespace: 12-04
+spec:
+  selector:
+    app: nginx
+  ports:
+  - name: nginx-http
+    protocol: TCP
+    port: 9001
+    targetPort: http-nginx
+  - name: multitool-http
+    protocol: TCP
+    port: 9002
+    targetPort: http-multitool
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netology-out
+  namespace: 12-04
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: http-nginx
+      port: 80
+      targetPort: http-nginx
+      protocol: TCP
+      nodePort: 32001
+  type: NodePort
