@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+  namespace: 12-05
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: taiko
+  template:
+    metadata:
+      labels:
+        app: taiko
+    spec:
+      containers:
+      - name: nginx
+        image: ewoutp/docker-nginx-curl
+        ports:
+          - containerPort: 80
+            name: http-nginx
