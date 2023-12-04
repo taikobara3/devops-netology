@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vol02
+  namespace: 12-06
+spec:
+  selector:
+    matchLabels:
+      name: sharelog
+  template:
+    metadata:
+      labels:
+        name: sharelog
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        volumeMounts:
+        - name: share-log
+          mountPath: /sharelog
+      volumes:
+      - name: share-log
+        hostPath:
+          path: /var/log

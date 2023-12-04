@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vol01
+  namespace: 12-06
+spec:
+  containers:
+    - name: vol001
+      image: busybox
+      command: ['sh', '-c', 'while true; do echo $dtd >> /share/test.txt; sleep 5; dtd=`date`; done']
+      volumeMounts:
+        - name: share-vol
+          mountPath: /share
+    - name: multitool
+      image: wbitt/network-multitool
+      volumeMounts:
+        - name: share-vol
+          mountPath: /share
+
+  volumes:
+    - name: share-vol
+      emptyDir: {}
