@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vol01
+  namespace: 12-07
+spec:
+  containers:
+    - name: multitool
+      image: wbitt/network-multitool
+      volumeMounts:
+        - name: nfs-vol
+          mountPath: /nfs
+
+  volumes:
+    - name: nfs-vol
+      persistentVolumeClaim:
+        claimName: pvc-nfs 
