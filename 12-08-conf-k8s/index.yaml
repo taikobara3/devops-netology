@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ng-index
+  namespace: 12-08
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+    <meta charset="UTF-8">
+    <title> K8S </title>
+    </head>
+    <body>
+    Simple example for K8S
+    </body>
+    </html>
