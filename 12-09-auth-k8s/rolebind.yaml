@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: taiko
+  namespace: 12-08
+subjects:
+- kind: User
+  name: taiko
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: tuser
+  apiGroup: rbac.authorization.k8s.io
