@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-front
+  namespace: app
+spec:
+  podSelector:
+    matchLabels:
+      serv: front
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            serv: front
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              serv: back
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-back
+  namespace: app
+spec:
+  podSelector:
+    matchLabels:
+      serv: back
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            serv: front
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              serv: cache
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-cache 
+  namespace: app
+spec:
+  podSelector:
+    matchLabels:
+      serv: cache
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            serv: back 
+

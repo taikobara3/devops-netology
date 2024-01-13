@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+  namespace: app
+  labels:
+    serv: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taiko
+  template:
+    metadata:
+      labels:
+        app: taiko
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+          - containerPort: 8080
+            name: front-multitool
+        env:
+          - name: HTTP_PORT
+            value: '8080'
+          - name: HTTPS_PORT
+            value: '11443'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-svc
+  namespace: app
+spec:
+  selector:
+    app: taiko
+  ports:
+  - name: front-http
+    protocol: TCP
+    port: 9001
+    targetPort: front-multitool
+  - name: back-http
+    protocol: TCP
+    port: 9002
+    targetPort: back-multitool
+  - name: cache-http
+    protocol: TCP
+    port: 9003
+    targetPort: cache-multitool
