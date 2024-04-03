@@ -189,6 +189,10 @@ https://gitlab.com/nethology1/taiko3/-/tree/main
 
 https://github.com/taikobara3/devops-netology/tree/main/15-01/demo-app-qbec
 
+Образ с тестовым приложением на Docker Hub:
+
+https://hub.docker.com/repository/docker/taikobara3/nginx-stage/general
+
 </details>
 
 5. Репозиторий с конфигурацией Kubernetes кластера.
