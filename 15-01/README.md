@@ -137,12 +137,15 @@
 
 Репозиторий с файлами terraform, включая автоматическое создание сервисного аккаунта и бакета S3:
 
+https://github.com/taikobara3/devops-netology/tree/main/15-01/terraform
 
 Репозиторий с пайплайном для автоматического развертывания инфраструктуры при коммите (без предварительного создания сервисного аккаунта и бакета):
 
 https://gitlab.com/taikobara3/terra/-/tree/main
 
-Он же в репозитории GitHub
+Он же в репозитории GitHub (без настроенного пайплайна):
+
+https://github.com/taikobara3/devops-netology/tree/main/15-01/terraform-gitlab
 
 </details>
 
@@ -164,6 +167,8 @@ https://gitlab.com/taikobara3/terra/-/tree/main
 
 Ссылка на репозиторий на GitHub:
 
+https://github.com/taikobara3/devops-netology/tree/main/15-01/ansible
+
 </details>
 
 4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
@@ -176,6 +181,8 @@ https://gitlab.com/taikobara3/terra/-/tree/main
 https://gitlab.com/nethology1/taiko3/-/tree/main
 
 Тот же репозиторий на GitHub, без настроенного CI/CD:
+
+https://github.com/taikobara3/devops-netology/tree/main/15-01/demo-app-qbec
 
 </details>
 
@@ -209,7 +216,7 @@ https://gitlab.com/nethology1/taiko3/-/tree/main
 
 ### Создание облачной инфраструктуры
 
-0. Предварительная подготовка к установке и запуску Kubernetes кластера.
+Предварительная подготовка к установке и запуску Kubernetes кластера.
 
 Работа проводилась на виртуальной машине с ОС Ubunti 22.04 LTS
 
@@ -340,7 +347,7 @@ yc iam access-key create --service-account-name sa-diplom
 terraform init -backend-config="access_key=***" -backend-config="secret_key=***" --backend-config=backend.key
 ```
 
-Файлы terraform здесь: [Сoздание VPC](https://github.com/taikobara3/devops-netology/tree/main/14-01-net)
+Файлы terraform здесь: [terraform](https://github.com/taikobara3/devops-netology/tree/main/15-01/terraform)
 
 ```bash
 terrafrom apply
