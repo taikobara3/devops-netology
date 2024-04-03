@@ -1,0 +1,63 @@
+default:
+  tags:
+    - ubu # tar for runner
+
+stages:
+  - validate
+  - apply
+  - destroy
+
+validate:
+  stage: validate
+  script:
+    - export YC_TOKEN=${YC_TOKEN}
+    - export YC_FOLDER_ID=${YC_FOLDER_ID}
+    - export ACCESS_KEY=${S3_ACCESS_KEY}
+    - export SECRET_KEY=${S3_SECRET_KEY}
+    - sed -i '13,15d' ./variables.tf
+    - echo 'variable "yc_token_id" {' >> ./variables.tf
+    - echo 'default = "'${YC_TOKEN}'"' >> ./variables.tf
+    - echo '}' >> ./variables.tf
+    - terraform init --backend-config="access_key=${S3_ACCESS_KEY}" --backend-config="secret_key=${S3_SECRET_KEY}" --backend-config=backend.key
+    - mkdir -p /home/gitlab-runner/.ssh
+    - echo ${RSA_PUB} > ~/.ssh/id_rsa.pub
+    - terraform validate -no-color
+
+apply:
+  stage: apply
+  script:
+    - export YC_TOKEN=${YC_TOKEN}
+    - export YC_FOLDER_ID=${YC_FOLDER_ID}
+    - export ACCESS_KEY=${S3_ACCESS_KEY}
+    - export SECRET_KEY=${S3_SECRET_KEY}
+    - sed -i '13,15d' ./variables.tf
+    - echo 'variable "yc_token_id" {' >> ./variables.tf
+    - echo 'default = "'${YC_TOKEN}'"' >> ./variables.tf
+    - echo '}' >> ./variables.tf
+    - terraform init --backend-config="access_key=${S3_ACCESS_KEY}" --backend-config="secret_key=${S3_SECRET_KEY}" --backend-config=backend.key
+    - mkdir -p /home/gitlab-runner/.ssh
+    - echo ${RSA_PUB} > ~/.ssh/id_rsa.pub
+    - mkdir -p ./ansible
+    - terraform apply -auto-approve
+  artifacts:
+    paths:
+      - ansible/
+  only:
+  - tags
+
+destroy:
+  stage: destroy # manual stage
+  script:
+    - export YC_TOKEN=${YC_TOKEN}
+    - export YC_FOLDER_ID=${YC_FOLDER_ID}
+    - export ACCESS_KEY=${S3_ACCESS_KEY}
+    - export SECRET_KEY=${S3_SECRET_KEY}
+    - sed -i '13,15d' ./variables.tf
+    - echo 'variable "yc_token_id" {' >> ./variables.tf
+    - echo 'default = "'${YC_TOKEN}'"' >> ./variables.tf
+    - echo '}' >> ./variables.tf
+    - terraform init --backend-config="access_key=${S3_ACCESS_KEY}" --backend-config="secret_key=${S3_SECRET_KEY}" --backend-config=backend.key
+    - mkdir -p /home/gitlab-runner/.ssh
+    - echo ${RSA_PUB} > ~/.ssh/id_rsa.pub
+    - terraform destroy -auto-approve
+  when: manual

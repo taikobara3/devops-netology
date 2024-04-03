@@ -1,0 +1,13 @@
+apiVersion: qbec.io/v1alpha1
+kind: App
+metadata:
+  name: demoapp
+spec:
+  environments:
+    default:
+      defaultNamespace: default
+      server: https://84.201.173.10:6443
+    taiko3:
+      defaultNamespace: taiko3
+      server: https://84.201.173.10:6443
+  vars: {}
