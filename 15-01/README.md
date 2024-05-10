@@ -567,7 +567,7 @@ kubectl apply -f ./namespaces.yml
 
 ```bash
 kubectl config set-context --current --namespace=gitlab-runner
-kubectl create secret generic gitlab-runner --from-literal=runner-registration-token="" --from-literal=runner-token="glrt-XcSExd1cdty83fHXsdys"
+kubectl create secret generic gitlab-runner --from-literal=runner-registration-token="" --from-literal=runner-token="..."
 ```
 
 ```bash
