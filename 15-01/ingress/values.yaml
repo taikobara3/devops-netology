@@ -1,0 +1,8 @@
+controller:
+  service:
+    type: NodePort
+    loadBalancerIP: "158.160.118.178"
+    nodePorts:
+      http: 30080
+  config:
+    pid: "/tmp/nginx/ingress_nginx.pid"

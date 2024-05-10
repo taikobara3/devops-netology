@@ -322,6 +322,7 @@ yc iam key create --folder-name netology --service-account-name sa-diplom --outp
 ![15-01-01a](./15-01-01a.png)
 
 ```bash
+yc iam access-key create --service-account-name sa-diplom
 terraform init -backend-config="access_key=***" -backend-config="secret_key=***" -backend-config=backend.key
 ```
 

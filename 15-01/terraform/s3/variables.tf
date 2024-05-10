@@ -11,5 +11,7 @@ variable "yc_folder_id" {
 }
 
 variable "yc_token_id" {
-  default = "***"
+  type = string
+  sensitive = true
 }
+

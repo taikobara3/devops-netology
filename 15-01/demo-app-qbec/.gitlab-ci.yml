@@ -28,7 +28,7 @@ build:   # Сборка контейнера приложения и отпра�
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${DOCKER_REGISTRY_USER}/${MY_PROJECT_TITLE}:latest" # Сборка образа приложения с тегом latest, и отправка в dockerhub
   only:
-  - tags
+    - /^v\d\.\d+(\.\d+)$/
 deploy:
   stage: deploy
   image: tabwizard/k8s-tools
@@ -43,4 +43,4 @@ deploy:
   tags:
     - taiko3
   only:
-  - tags
+    - /^v\d\.\d+(\.\d+)$/

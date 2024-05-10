@@ -5,23 +5,33 @@ resource "yandex_vpc_network" "net-diplom" {
 }
 
 # subnets
-resource "yandex_vpc_subnet" "subnet-a" {
-  name           = "subnet-a"
-  zone           = "ru-central1-a"
+
+resource "yandex_vpc_subnet" "sample" {
+for_each =  { for nw in local.vmnw_k8s: "${nw.name}" => nw }
+
+  name           = each.key
+  zone           = each.value.zone
   network_id     = yandex_vpc_network.net-diplom.id
-  v4_cidr_blocks = ["192.168.100.0/24"]
+  v4_cidr_blocks = each.value.cidr
 }
 
-resource "yandex_vpc_subnet" "subnet-b" {
-  name           = "subnet-b"
-  zone           = "ru-central1-b"
-  network_id     = yandex_vpc_network.net-diplom.id
-  v4_cidr_blocks = ["192.168.150.0/24"]
+locals {
+  vmnw_k8s = [
+        {
+        name    = "subnet-a"
+        zone    = "ru-central1-a"
+        cidr    = ["192.168.100.0/24"]
+        },
+        {
+        name    = "subnet-b"
+        zone    = "ru-central1-b"
+        cidr    = ["192.168.150.0/24"]
+        },
+        {
+        name    = "subnet-d"
+        zone    = "ru-central1-b"
+        cidr    = ["192.168.200.0/24"]
+        }
+  ]
 }
 
-resource "yandex_vpc_subnet" "subnet-d" {
-  name           = "subnet-d"
-  zone           = "ru-central1-b"
-  network_id     = yandex_vpc_network.net-diplom.id
-  v4_cidr_blocks = ["192.168.200.0/24"]
-}

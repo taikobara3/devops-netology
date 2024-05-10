@@ -53,13 +53,11 @@ local params = p.components.app;
         "name": "web",
         "port": params.port,
         "targetPort": params.targetPort,
-        "nodePort": params.nodePort,
       }
     ],
     "selector": {
       "app": "demoapp"
     },
-    "type": "NodePort"
   }
 }
 
